@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="caaa86dc-1c9a-4031-b861-48d9e1c8c754" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="timezone-apiFlow" doc:id="98539e1d-71b9-439b-8b83-e7e53a52f68f" >
+		<http:listener doc:name="Listener" doc:id="15562618-902b-4833-880e-4ef970e978ea" config-ref="HTTP_Listener_config" path="/world-time"/>
+		<http:request method="GET" doc:name="Request" doc:id="32dd1a0d-a7b2-4986-97ad-4ca51087caa9" url="https://timeapi.io/api/TimeZone/zone">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	timeZone : attributes.queryParams.timeZone
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+</mule>
