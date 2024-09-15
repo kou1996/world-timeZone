@@ -9,6 +9,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</http:listener-config>
 	<flow name="timezone-apiFlow" doc:id="98539e1d-71b9-439b-8b83-e7e53a52f68f" >
 		<http:listener doc:name="Listener" doc:id="15562618-902b-4833-880e-4ef970e978ea" config-ref="HTTP_Listener_config" path="/world-time"/>
+		<logger level="INFO" doc:name="Initial Logger" doc:id="5d3bb642-ab40-44a3-8588-84e0cf92c92c" message='Request Received || Message Id : #[correlationId] || #[now() as String {format:"yyyy.MM.dd HH:mm:ss.SSS" }]'/>
 		<http:request method="GET" doc:name="Request" doc:id="32dd1a0d-a7b2-4986-97ad-4ca51087caa9" url="https://timeapi.io/api/TimeZone/zone">
 			<http:query-params ><![CDATA[#[output application/java
 ---
@@ -16,5 +17,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	timeZone : attributes.queryParams.timeZone
 }]]]></http:query-params>
 		</http:request>
+		<logger level="INFO" doc:name="Final Logger" doc:id="70174249-2b28-4d1c-a014-4d58c703b1a3" message='Application Ends || Message Id : #[correlationId] || #[now() as String {format:"yyyy.MM.dd HH:mm:ss.SSS" }]'/>
 	</flow>
 </mule>
